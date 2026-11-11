@@ -13,7 +13,6 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { fontWeights } from "@/lib/font-weight";
 import { useShape } from "@/lib/shape-context";
@@ -346,7 +345,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     // activated by keyboard (pointer-events-none only blocks the mouse).
     const overlay = clickable && !disabled ? (
       href ? (
-        <Link
+        <a
           href={href}
           onClick={onClick}
           target={external ? "_blank" : undefined}
@@ -977,7 +976,7 @@ function CardButton({
 
   if (href) {
     return (
-      <Link
+      <a
         href={href}
         onClick={onClick}
         target={external ? "_blank" : undefined}
@@ -986,7 +985,7 @@ function CardButton({
         style={{ fontVariationSettings: fontWeights.normal }}
       >
         {inner}
-      </Link>
+      </a>
     );
   }
 
