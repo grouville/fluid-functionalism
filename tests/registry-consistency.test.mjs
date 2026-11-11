@@ -409,6 +409,27 @@ describe("shipped imports reach installers", () => {
     }
     expect(missing, rel).toEqual([]);
   });
+
+  // Package imports need an npm dependency on the item or its chain. React
+  // comes with every project; anything else (next/link) breaks a Vite app.
+  const PROJECT_PACKAGES = new Set(["react", "react-dom"]);
+  const packageName = (spec) => spec.split("/").slice(0, spec.startsWith("@") ? 2 : 1).join("/");
+
+  it.each([...payloads.keys()])("%s declares every package its source imports", (rel) => {
+    const declared = new Set(PROJECT_PACKAGES);
+    for (const dep of reachable(rel)) {
+      for (const d of payloads.get(dep)?.dependencies ?? []) declared.add(d.replace(/(?!^)@.*$/, ""));
+    }
+    const missing = [];
+    for (const file of payloads.get(rel).files ?? []) {
+      for (const m of (file.content ?? "").matchAll(IMPORT)) {
+        const spec = m[1] ?? m[2] ?? m[3];
+        if (spec.startsWith("@/") || spec.startsWith(".")) continue;
+        if (!declared.has(packageName(spec))) missing.push(`${installPath(file)} imports "${spec}"`);
+      }
+    }
+    expect(missing, rel).toEqual([]);
+  });
 });
 
 describe("shipped theme utilities reach installers", () => {
