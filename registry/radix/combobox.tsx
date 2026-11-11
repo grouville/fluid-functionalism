@@ -594,6 +594,8 @@ const FieldInput = forwardRef<
   const handleKeyDown = (e: ReactKeyboardEvent<HTMLInputElement>) => {
     onKeyDown?.(e);
     if (e.defaultPrevented || disabled) return;
+    // Same IME guard as CommandMenuInput.
+    if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) return;
     const count = filteredItems.length;
     switch (e.key) {
       case "ArrowDown":
