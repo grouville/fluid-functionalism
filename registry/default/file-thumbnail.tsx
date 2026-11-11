@@ -133,7 +133,7 @@ function FileThumbnail({ file, size, radius, className }: FileThumbnailProps) {
         if (!cancelled) setPdf({ url, failed: null });
       })
       .catch(() => {
-        if (!cancelled) setPdf((prev) => ({ ...prev, failed: { file, size } }));
+        if (!cancelled) setPdf({ url: null, failed: { file, size } });
       });
     return () => {
       cancelled = true;
