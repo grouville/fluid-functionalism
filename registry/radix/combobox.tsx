@@ -467,10 +467,10 @@ function Combobox<
         {name &&
           (isMultiple ? (
             values.map((v) => (
-              <input key={v} type="hidden" name={name} value={v} />
+              <input key={v} type="hidden" name={name} value={v} disabled={disabled} />
             ))
           ) : (
-            <input type="hidden" name={name} value={values[0] ?? ""} required={required} />
+            <input type="hidden" name={name} value={values[0] ?? ""} required={required} disabled={disabled} />
           ))}
       </PopoverPrimitive.Root>
     </ComboboxHighlightContext.Provider>
